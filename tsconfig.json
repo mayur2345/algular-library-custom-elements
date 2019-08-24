@@ -17,6 +17,14 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "element-container-lib": [
+        "dist/element-container-lib"
+      ],
+      "element-container-lib/*": [
+        "dist/element-container-lib/*"
+      ]
+    }
   }
 }

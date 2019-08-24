@@ -29,7 +29,11 @@
             "styles": [
               "src/styles.sass"
             ],
-            "scripts": []
+            "scripts": [
+              {
+                "input": "node_modules/document-register-element/build/document-register-element.js"
+              }
+            ]
           },
           "configurations": {
             "production": {
@@ -127,6 +131,168 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": "e2e/tsconfig.e2e.json",
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "element-container-lib": {
+      "root": "projects/element-container-lib",
+      "sourceRoot": "projects/element-container-lib/src",
+      "projectType": "library",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "projects/element-container-lib/tsconfig.lib.json",
+            "project": "projects/element-container-lib/ng-package.json"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/element-container-lib/src/test.ts",
+            "tsConfig": "projects/element-container-lib/tsconfig.spec.json",
+            "karmaConfig": "projects/element-container-lib/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/element-container-lib/tsconfig.lib.json",
+              "projects/element-container-lib/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "test-harness-application": {
+      "root": "projects/test-harness-application/",
+      "sourceRoot": "projects/test-harness-application/src",
+      "projectType": "application",
+      "prefix": "app",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/test-harness-application",
+            "index": "projects/test-harness-application/src/index.html",
+            "main": "projects/test-harness-application/src/main.ts",
+            "polyfills": "projects/test-harness-application/src/polyfills.ts",
+            "tsConfig": "projects/test-harness-application/tsconfig.app.json",
+            "assets": [
+              "projects/test-harness-application/src/favicon.ico",
+              "projects/test-harness-application/src/assets"
+            ],
+            "styles": [
+              "projects/test-harness-application/src/styles.css"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "projects/test-harness-application/src/environments/environment.ts",
+                  "with": "projects/test-harness-application/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "test-harness-application:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "test-harness-application:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "test-harness-application:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "projects/test-harness-application/src/test.ts",
+            "polyfills": "projects/test-harness-application/src/polyfills.ts",
+            "tsConfig": "projects/test-harness-application/tsconfig.spec.json",
+            "karmaConfig": "projects/test-harness-application/karma.conf.js",
+            "styles": [
+              "projects/test-harness-application/src/styles.css"
+            ],
+            "scripts": [],
+            "assets": [
+              "projects/test-harness-application/src/favicon.ico",
+              "projects/test-harness-application/src/assets"
+            ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "projects/test-harness-application/tsconfig.app.json",
+              "projects/test-harness-application/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "test-harness-application-e2e": {
+      "root": "projects/test-harness-application-e2e/",
+      "projectType": "application",
+      "prefix": "",
+      "architect": {
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "projects/test-harness-application-e2e/protractor.conf.js",
+            "devServerTarget": "test-harness-application:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "test-harness-application:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": "projects/test-harness-application-e2e/tsconfig.e2e.json",
             "exclude": [
               "**/node_modules/**"
             ]
